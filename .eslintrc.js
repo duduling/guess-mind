@@ -18,5 +18,7 @@ module.exports = {
   rules: {
     'no-console': 0,
     'semi': 0,
+    'arrow-parens': 0,
+    'indent': 0,
   },
 }
