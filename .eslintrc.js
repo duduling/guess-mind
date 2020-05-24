@@ -20,5 +20,6 @@ module.exports = {
     'semi': 0,
     'arrow-parens': 0,
     'indent': 0,
+    'import/prefer-default-export': 0,
   },
 }
