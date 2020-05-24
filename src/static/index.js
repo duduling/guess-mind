@@ -11,9 +11,9 @@ const setNickname = nickname => {
 }
 
 const handleMessageNotif = data => {
-    const { message, nicknam } = data
+    const { message, nickname } = data
 
-    console.log(`${nicknam}: ${message}`)
+    console.log(`${nickname}: ${message}`)
 }
 
 socket.on('messageNotif', handleMessageNotif)
