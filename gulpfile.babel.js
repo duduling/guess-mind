@@ -1,14 +1,32 @@
 import gulp from 'gulp'
 import sass from 'gulp-sass'
+import nodeSass from 'node-sass'
+import autoPrefixer from 'gulp-autoprefixer'
 
-const PATHS = {
+sass.compiler = nodeSass
+
+const PATH = {
     styles: {
         src: 'assets/scss/styles.scss',
         dest: 'src/static/styles',
+        watch: 'assets/scss/**/*.scss',
     },
 }
 
-export const styles = () => gulp
-    .src(PATHS.styles.src)
+const styles = () => gulp
+    .src(PATH.styles.src)
     .pipe(sass())
-    .pipe(gulp.dest(PATHS.styles.dest))
+    .pipe(
+        autoPrefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        })
+    )
+    .pipe(gulp.dest(PATH.styles.dest))
+
+const watchFiles = () => gulp
+    .watch(PATH.styles.watch, styles)
+
+const dev = gulp.series([styles, watchFiles])
+
+export default dev
