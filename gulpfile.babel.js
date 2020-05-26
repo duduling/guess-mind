@@ -4,6 +4,7 @@ import nodeSass from 'node-sass'
 import autoPrefixer from 'gulp-autoprefixer'
 import del from 'del'
 import bro from 'gulp-browserify'
+import babel from 'babelify'
 
 sass.compiler = nodeSass
 
@@ -35,7 +36,13 @@ const styles = () => gulp
 
 const js = () => gulp
     .src(PATH.js.src)
-    .pipe(bro())
+    .pipe(bro({
+        transform: [
+            babel.configure({
+                presets: ['@babel/preset-env'],
+            }),
+        ],
+    }))
     .pipe(gulp.dest(PATH.js.dest))
 
 const watchFiles = () => gulp
@@ -43,5 +50,7 @@ const watchFiles = () => gulp
     .watch(PATH.js.watch, js)
 
 const dev = gulp.series(clean, styles, js, watchFiles)
+
+const build = gulp.series(clean, styles, js)
 
 export default dev
