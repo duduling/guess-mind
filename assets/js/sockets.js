@@ -1,4 +1,4 @@
-import { handleNewUser } from './notification'
+import { handleNewUser, handleDisconnected } from './notification'
 
 let socket = null
 
@@ -13,6 +13,7 @@ const initSocket = aSocket => {
 
     updateSocket(aSocket)
     aSocket.on(events.newUser, handleNewUser)
+    aSocket.on(events.disconnected, handleDisconnected)
 }
 
 export {
