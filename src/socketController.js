@@ -1,6 +1,10 @@
+import events from './events'
+
 const socketController = socket => {
-    socket.on('setNickname', ({ nickname }) => {
+    socket.on(events.setNickname, ({ nickname }) => {
+        // eslint-disable-next-line no-param-reassign
         socket.nickname = nickname
+        socket.broadcast.emit(events.newUser, { nickname })
     })
 }
 

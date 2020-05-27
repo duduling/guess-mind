@@ -21,5 +21,7 @@ module.exports = {
     'arrow-parens': 0,
     'indent': 0,
     'import/prefer-default-export': 0,
+    'no-shadow': 0,
+    'no-undef': 0,
   },
 }
