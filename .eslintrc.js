@@ -23,5 +23,6 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-shadow': 0,
     'no-undef': 0,
+    'import/no-cycle': 0,
   },
 }
