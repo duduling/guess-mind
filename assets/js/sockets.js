@@ -1,29 +1,18 @@
-import { handleNewUser, handleDisconnected } from './notification'
-
-import { handleNewMsg } from './chat'
-import { handleBeganPath, handleStrokedPath } from './paint'
+import { handleNewUser, handleDisconnected } from './notifications'
+import { handleNewMessage } from './chat'
+import { handleBeganPath, handleStrokedPath, handleFilled } from './paint'
 
 let socket = null
 
-const getSocket = () => socket
+export const getSocket = () => socket
 
-const updateSocket = aSocket => {
-    socket = aSocket
-}
-
-const initSockets = aSocket => {
+export const initSockets = aSocket => {
     const { events } = window
-
-    updateSocket(aSocket)
-    aSocket.on(events.newUser, handleNewUser)
-    aSocket.on(events.newMsg, handleNewMsg)
-    aSocket.on(events.beganPath, handleBeganPath)
-    aSocket.on(events.strokedPath, handleStrokedPath)
-    aSocket.on(events.disconnected, handleDisconnected)
-}
-
-export {
-    getSocket,
-    updateSocket,
-    initSockets,
+    socket = aSocket
+    socket.on(events.newUser, handleNewUser)
+    socket.on(events.disconnected, handleDisconnected)
+    socket.on(events.newMsg, handleNewMessage)
+    socket.on(events.beganPath, handleBeganPath)
+    socket.on(events.strokedPath, handleStrokedPath)
+    socket.on(events.filled, handleFilled)
 }
