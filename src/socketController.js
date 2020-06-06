@@ -1,8 +1,8 @@
 import events from './events'
 
-const sockets = []
+let sockets = []
 
-const socketController = socket => {
+const socketController = (socket, io) => {
     const broadcast = (event, data) => socket.broadcast.emit(event, data)
     const superBroadcast = (event, data) => io.emit(event, data)
     const sendPlayerUpdate = () => superBroadcast(events.playerUpdate, { sockets })
