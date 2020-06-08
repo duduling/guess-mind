@@ -18,4 +18,6 @@ export const initSockets = aSocket => {
     socket.on(events.filled, handleFilled)
     socket.on(events.playerUpdate, handlePlayerUpdate)
     socket.on(events.gameStarted, handleGameStarted)
+    socket.on(events.leaderNotif, handleLeaderNotif)
+    socket.on(events.gameEnded, handleGameEnded)
 }

@@ -130,7 +130,9 @@ export const showControls = () => {
     controls.style.display = 'none'
 }
 
+export const resetCanvas = () => fill('#fff')
+
 if (canvas) {
-    enableCanvas()
     canvas.addEventListener('contextmenu', handleCM)
+    hideControls()
 }
