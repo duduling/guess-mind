@@ -127,7 +127,7 @@ export const hideControls = () => {
 }
 
 export const showControls = () => {
-    controls.style.display = 'none'
+    controls.style.display = 'flex'
 }
 
 export const resetCanvas = () => fill('#fff')
