@@ -5,6 +5,7 @@ let sockets = []
 let inProgress = false
 let word = null
 let leader = null
+let timeout = null
 
 const chooseLeader = () => sockets[Math.floor(Math.random() * sockets.length)]
 
@@ -13,20 +14,26 @@ const socketController = (socket, io) => {
     const superBroadcast = (event, data) => io.emit(event, data)
     const sendPlayerUpdate = () => superBroadcast(events.playerUpdate, { sockets })
     const startGame = () => {
-        if (inProgress === false) {
-            inProgress = true
-            leader = chooseLeader()
-            word = chooseWord()
-            superBroadcast(events.gameStarting)
-            setTimeout(() => {
-                io.to(leader.id).emit(events.leaderNotif, { word })
-                superBroadcast(events.gameStarted)
-            }, 5000)
+        if (sockets.length > 1) {
+            if (inProgress === false) {
+                inProgress = true
+                leader = chooseLeader()
+                word = chooseWord()
+                superBroadcast(events.gameStarting)
+                setTimeout(() => {
+                    io.to(leader.id).emit(events.leaderNotif, { word })
+                    superBroadcast(events.gameStarted)
+                }, 5000)
+            }
         }
     }
     const endGame = () => {
         inProgress = false
         superBroadcast(events.gameEnded)
+        if (timeout !== null) {
+            clearTimeout(timeout)
+        }
+        setTimeout(() => startGame(), 2000)
     }
     const addPoints = id => {
         sockets = sockets.map(socket => {
@@ -44,9 +51,7 @@ const socketController = (socket, io) => {
         sockets.push({ id: socket.id, points: 0, nickname })
         broadcast(events.newUser, { nickname })
         sendPlayerUpdate()
-        if (sockets.length === 2) {
-            startGame()
-        }
+        startGame()
     })
 
     socket.on(events.disconnect, () => {
@@ -66,7 +71,7 @@ const socketController = (socket, io) => {
         if (message === word) {
             superBroadcast(events.newMsg, {
                 message: `Winner is ${socket.nickname}, word was: ${word}`,
-                nickname: 'Bot'
+                nickname: 'Bot',
             })
             addPoints(socket.id)
         } else {
@@ -75,9 +80,11 @@ const socketController = (socket, io) => {
                 nickname: socket.nickname
             })
         }
-    }
+    })
 
-    socket.on(events.beginPath, ({ x, y }) => broadcast(events.beganPath, { x, y }))
+    socket.on(events.beginPath, ({ x, y }) => {
+        broadcast(events.beganPath, { x, y })
+    })
 
     socket.on(events.strokePath, ({ x, y, color }) => {
         broadcast(events.strokedPath, { x, y, color })
@@ -86,6 +93,8 @@ const socketController = (socket, io) => {
     socket.on(events.fill, ({ color }) => {
         broadcast(events.filled, { color })
     })
+
+
 }
 
 export default socketController
