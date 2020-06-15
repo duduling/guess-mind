@@ -21,8 +21,9 @@ const socketController = (socket, io) => {
                 word = chooseWord()
                 superBroadcast(events.gameStarting)
                 setTimeout(() => {
-                    io.to(leader.id).emit(events.leaderNotif, { word })
                     superBroadcast(events.gameStarted)
+                    io.to(leader.id).emit(events.leaderNotif, { word })
+                    timeout = setTimeout(endGame, 30000)
                 }, 5000)
             }
         }
@@ -75,16 +76,11 @@ const socketController = (socket, io) => {
             })
             addPoints(socket.id)
         } else {
-            broadcast(events.newMsg, {
-                message,
-                nickname: socket.nickname
-            })
+            broadcast(events.newMsg, { message, nickname: socket.nickname })
         }
     })
 
-    socket.on(events.beginPath, ({ x, y }) => {
-        broadcast(events.beganPath, { x, y })
-    })
+    socket.on(events.beginPath, ({ x, y }) => broadcast(events.beganPath, { x, y }))
 
     socket.on(events.strokePath, ({ x, y, color }) => {
         broadcast(events.strokedPath, { x, y, color })
@@ -93,8 +89,6 @@ const socketController = (socket, io) => {
     socket.on(events.fill, ({ color }) => {
         broadcast(events.filled, { color })
     })
-
-
 }
 
 export default socketController

@@ -7,7 +7,6 @@ import events from './events'
 
 const PORT = 4000
 const app = express()
-
 app.set('view engine', 'pug')
 app.set('views', join(__dirname, 'views'))
 app.use(logger('dev'))

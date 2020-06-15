@@ -1,4 +1,10 @@
-import { disableCanvas, hideControls, enableCanvas, showControls, resetCanvas } from './paint'
+import {
+    disableCanvas,
+    hideControls,
+    enableCanvas,
+    showControls,
+    resetCanvas,
+} from './paint'
 import { disableChat, enableChat } from './chat'
 
 const board = document.getElementById('jsPBoard')
@@ -18,26 +24,31 @@ const setNotifs = text => {
     notifs.innerText = text
 }
 
-export const handlePlayerUpdate = ({ sockets }) => addPlayers(sockets)
-export const handleGameStarted = () => {
+const handlePlayerUpdate = ({ sockets }) => addPlayers(sockets)
+const handleGameStarted = () => {
     setNotifs('')
     disableCanvas()
     hideControls()
+    enableChat()
 }
-export const handleLeaderNotif = ({ word }) => {
+const handleLeaderNotif = ({ word }) => {
     enableCanvas()
     showControls()
     disableChat()
     notifs.innerText = `You are the leader, paint: ${word}`
 }
-export const handleGameEnded = () => {
+const handleGameEnded = () => {
     setNotifs('Game ended.')
     disableCanvas()
     hideControls()
     resetCanvas()
-    enableChat()
 }
+const handleGameStarting = () => setNotifs('Game will start soon')
 
-export const handleGameStarting = () => {
-    setNotifs('Game will start soon')
+export {
+    handlePlayerUpdate,
+    handleGameStarted,
+    handleLeaderNotif,
+    handleGameEnded,
+    handleGameStarting,
 }

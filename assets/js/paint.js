@@ -102,11 +102,11 @@ if (mode) {
     mode.addEventListener('click', handleModeClick)
 }
 
-export const handleBeganPath = ({ x, y }) => beginPath(x, y)
-export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color)
-export const handleFilled = ({ color }) => fill(color)
+const handleBeganPath = ({ x, y }) => beginPath(x, y)
+const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color)
+const handleFilled = ({ color }) => fill(color)
 
-export const disableCanvas = () => {
+const disableCanvas = () => {
     canvas.removeEventListener('mousemove', onMouseMove)
     canvas.removeEventListener('mousedown', startPainting)
     canvas.removeEventListener('mouseup', stopPainting)
@@ -114,7 +114,7 @@ export const disableCanvas = () => {
     canvas.removeEventListener('click', handleCanvasClick)
 }
 
-export const enableCanvas = () => {
+const enableCanvas = () => {
     canvas.addEventListener('mousemove', onMouseMove)
     canvas.addEventListener('mousedown', startPainting)
     canvas.addEventListener('mouseup', stopPainting)
@@ -122,17 +122,28 @@ export const enableCanvas = () => {
     canvas.addEventListener('click', handleCanvasClick)
 }
 
-export const hideControls = () => {
+const hideControls = () => {
     controls.style.display = 'none'
 }
 
-export const showControls = () => {
+const showControls = () => {
     controls.style.display = 'flex'
 }
 
-export const resetCanvas = () => fill('#fff')
+const resetCanvas = () => fill('#fff')
 
 if (canvas) {
     canvas.addEventListener('contextmenu', handleCM)
     hideControls()
+}
+
+export {
+    handleBeganPath,
+    handleStrokedPath,
+    handleFilled,
+    disableCanvas,
+    enableCanvas,
+    hideControls,
+    showControls,
+    resetCanvas,
 }

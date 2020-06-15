@@ -7,7 +7,7 @@ const appendMsg = (text, nickname) => {
     const li = document.createElement('li')
     li.innerHTML = `
         <span class="author ${nickname ? 'out' : 'self'}">${
-        nickname
+        nickname || 'You'
         }:</span> ${text}
     `
     messages.appendChild(li)
@@ -19,19 +19,25 @@ const handleSendMsg = event => {
     const { value } = input
     getSocket().emit(window.events.sendMsg, { message: value })
     input.value = ''
-    appendMsg(value, 'You')
+    appendMsg(value)
 }
 
-export const handleNewMsg = ({ message, nickname }) => appendMsg(message, nickname)
+const handleNewMessage = ({ message, nickname }) => appendMsg(message, nickname)
 
 if (sendMsg) {
     sendMsg.addEventListener('submit', handleSendMsg)
 }
 
-export const disableChat = () => {
+const disableChat = () => {
     sendMsg.style.display = 'none'
 }
-
-export const enableChat = () => {
+const enableChat = () => {
     sendMsg.style.display = 'flex'
+}
+
+
+export {
+    handleNewMessage,
+    disableChat,
+    enableChat,
 }
